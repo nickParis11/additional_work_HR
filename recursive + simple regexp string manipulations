@@ -1,0 +1,215 @@
+// coding cheat sheet to be able to go back and look at behavior of common regExp 
+
+
+// on souhaite savoir s'il existe des correspondances entre une chaîne de caractères et une expression rationnelle RegExp, on pourra utiliser search().
+//Si on ne souhaite obtenir que la première correspondance, on pourra plutôt utiliser RegExp.exec() à la place.
+
+//Si on souhaite obtenir les groupes correspondants et que le drapeau « global » est activé, il faudra utiliser RegExp.exec() à la place.
+
+// .match()
+var str = 'Pour plus d\'informations, voir le chapitre 3.4.5.1';
+var re = /(chapitre \d+(\.\d)*)/i;
+var re2 = /our.*(chapitre \d+(\.\d)*)/i;
+var re3 = /(Pour).*(chapitre \d+(\.\d)*)/i;
+var trouvé = str.match(re); // play with different values of re
+
+console.log(trouvé);
+
+// ====> output 
+// [ 'chapitre 3.4.5.1',
+//   'chapitre 3.4.5.1',
+//   '.1',
+//   index: 34,
+//   input: 'Pour plus d\'informations, voir le chapitre 3.4.5.1' ]
+
+
+
+// ====> eplanation
+// logs ['chapitre 3.4.5.1', 'chapitre 3.4.5.1', '.1']
+
+// 'chapitre 3.4.5.1' est la première correspondance
+// 'chapitre 3.4.5.1' est la valeur gardée en mémoire par
+// `(chapitre \d+(\.\d)*)`.
+// '.1' est la valeur gardée en mémoire par `(\.\d)`.
+
+
+
+// exec 
+var matches = /(coucou \S+)/.exec('Ceci est un coucou monde !');
+console.log('little exec = '+matches[1]);
+
+
+
+// replace() search()
+
+str="j'en ai marre de FB FB ou fb"
+
+
+// regexp 
+// - match - replace - search
+
+var newStr=str.replace(/ /g,'')
+console.log(newStr);
+console.log(str.replace(/j/i,'JJJJ'));
+console.log(str.replace(/j/i,'JJJJ'));
+console.log(str.search(/ /i) === str.indexOf(' ')); // true
+console.log(str.search(/ /i) === str.indexOf(' ')); // still as search only return first occurence
+console.log('t RE SEARCH*******!!!!!!!'+str.search(/marre/gi) ); 
+console.log(str.replace(/ /g,''))
+console.log('t RE 1 = '+str.replace(/\w/g,'newWord')) // every new letter is replaced
+console.log('t RE 2 = '+str.replace(/\w+/g,'newWord')) // every word is replaced
+
+
+var re=/(\w+)\s(\w+)\s(\w+)/
+var strHere = "Jean Biche thirdWord";
+var nouvelleStr = strHere.replace(re, "$3,  $2, $1, &&&");
+console.log('t RE 5 = '+nouvelleStr); //
+var allWords=/(\w+)(\s+)/;
+var nouvelleStr2 = strHere.replace(allWords, "word1 : $1// space : $2// rest of the words : ");
+console.log('t RE 3 = '+nouvelleStr2); //
+
+var strHere2 = "Jean Biche thirdWord ";
+var nouvelleStr3 = strHere.replace(re, "$2,  $3, $1, &&&");
+console.log(nouvelleStr3); //
+var allWords2=/(\w+)(\s+)/;
+var nouvelleStr4 = strHere2.replace(allWords2, "word1 : $1// space : $2// rest of the words : ");
+console.log('t RE 4 = '+nouvelleStr4); //
+var allWords3=/((\w+\s)+)/;
+var nouvelleStr5 = strHere2.replace(allWords3, "$1 $1 // $1");
+console.log('t RE 6 = '+nouvelleStr5); //
+
+str="jen ai fb marre de FBFB word ou fb" // replace all fb no matter what the case is by "Facebook"
+var allWords4=/fb/gi;
+var nouvelleStr6 = str.replace(allWords4, "Facebook");
+console.log('t RE 7 = '+nouvelleStr6); //
+
+// replace all fb by "fb#n"
+
+var allWords5=/.+(fb)[\s\w+]*.*(fb)\s*(FB)[\s\w+]+.+(fb)/i; // \s(FB)\s\w\s(FB)
+var nouvelleStr7 = str.replace(allWords5, "$1#1 // $2#2 // $3#3 // $4#4 ");
+console.log('t RE 8 = '+nouvelleStr7); //
+console.log('search RE 8 = '+str.search(/fb/i));
+console.log('search #2 RE 8 = '+str.search(/\w+\s/i));
+
+
+var allWords6=/.+(fb).+(fb).*(FB).+(fb)/i;
+var nouvelleStr8 = str.replace(allWords6, "$1#1 // $2#2 // $3#3 // $4#4 ");
+// str.replace(allWords3, "$1 #1 // $2 #2 // $3 #3");
+console.log('t RE 9 = '+nouvelleStr8); //
+console.log('search RE 9 = '+str.search(/fb/i));
+console.log('search #2 RE 9 = '+str.search(/\w+\s/i));
+
+
+var str3 = "the xmas night before Xmas...";
+var nouvelleStr = str3.replace(/xmas/gi, "Christmas");
+console.log(nouvelleStr); // the Christmas night before Christmas
+
+var str2 = "the xmas night before Xmas...";
+var nouvelleStr2 = str2.replace(/xmas/i, "Christmas");
+console.log(nouvelleStr2); // the Christmas night before Xmas...
+
+
+
+// ==> exercice 
+var text='I learned to play the Ukulele in Lebanon.'
+
+// write a function or instruction that outputs [2, 25, 27, 33]
+
+
+function findAllOccurences(string,num,lookedUpText){
+  var final=[];
+  var charLength=lookedUpText.length;
+  RExpSearch=new RegExp(string, 'i');
+
+  var index=0;
+  var lastIndex=0
+  
+  while( index < charLength ) {
+  index=lookedUpText.search(RExpSearch);
+  if (index === -1) {
+    return final
+  }
+  final.push(index+lastIndex);
+  lastIndex=lastIndex+index+num;
+  lookedUpText=lookedUpText.slice(index+num)
+  }
+}
+
+console.log('result = '+JSON.stringify(findAllOccurences(/le/,2,text)));
+
+var strRE = "I learned to play the Ukulele in Lebanon."
+var regex = /le/gi, result, indices = [],regex2=/lera/gi;
+while ( (result = regex.exec(strRE)) ) {
+    indices.push(result.index);
+}
+console.log('indices = '+indices)
+console.log('exec regExp found = '+JSON.stringify(regex.exec(strRE)));
+console.log('exec regExp didnt found = '+JSON.stringify(regex2.exec(strRE)));
+
+// exercice
+str='"hey man how " is " "it" d"o"ing ?"'
+str.replace(/^"|"$/g,'');
+//get rid of boundaries elements but keeps them inside
+str =str.replace(/(?!^"|"$)\s"\s/g,' ');
+str =str.replace(/(?!^"|"$)"/g,'');
+// get rid of insides elements but keeps them in the boundaries
+
+
+
+
+//str=str.slice(0,str.indexOf(' '))+str.slice(str.indexOf(' ')+1)
+
+function removeCharWithRegExpForLoop(char,str) {
+  for ( var i =0; i<str.length;i++){
+    if (str.search(char) !== -1) {
+      i=str.search(char);
+      str=str.slice(0,i)+str.slice(i+1);
+      }
+  }
+  return str
+}
+
+console.log('removeCharWithRegExpForLoop output = '+removeCharWithRegExpForLoop(/[a-b]/i,str))
+
+
+function removeCharWithForLoop(char,str) {
+  for ( var i =0; i<str.length;i++){
+    if (str.indexOf(char) !== -1) {
+      i=str.indexOf(char);
+      str=str.slice(0,i)+str.slice(i+1);
+      }
+  }
+  return str
+}
+console.log(removeCharWithForLoop('a',str))
+
+function removeCharWithRecursiveCall(char,str){
+
+  return str.indexOf(char) === -1 ? str : str.slice(0,str.indexOf(char))+removeCharWithRecursiveCall( char, str.slice( str.indexOf(char)+1 ) )
+}
+
+console.log(removeCharWithRecursiveCall('e',str))
+
+console.log(removeCharWithRecursiveCall('r',str))
+
+var x={ test: 1234 }
+var y=5678
+console.log(x.toString());
+console.log(y.toString());
+console.log(typeof y.toString());
+
+var uneChaîne = "MozillaZ";
+
+// Affiche "Moz"
+console.log(uneChaîne.substring(0,3));
+console.log(uneChaîne.substring(3,0));
+
+// Affiche "lla"
+console.log(uneChaîne.substring(4,7));
+console.log(uneChaîne.substring(4));
+console.log('last Ouput = '+uneChaîne.substring(7,4));
+
+console.log(uneChaîne.substr(4,3)) // should be equal to last output
+console.log(uneChaîne.substr(3,4)) // should have one more Char than last output
+
+

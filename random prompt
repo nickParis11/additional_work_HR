@@ -1,0 +1,313 @@
+var salesTeam = [{name: {first: 'aleen', last: 'atkins'}, age: 26, sales: '$2314'},
+    {name: {first: 'alvaro', last: 'angelos'}, age: 55, sales: '$1668'},
+    {name: {first: 'denese', last: 'dossett'}, age: 29, sales: '$9248'},
+    {name: {first: 'douglas', last: 'denney'}, age: 53, sales: '$5058'},
+    {name: {first: 'earline', last: 'erickson'}, age: 19, sales: '$18876'},
+    {name: {first: 'herman', last: 'hazell'}, age: 25, sales: '$2746'},
+    {name: {first: 'homer', last: 'hirth'}, age: 26, sales: '$474'},
+    {name: {first: 'hwa', last: 'heidt'}, age: 53, sales: '$9607'},
+    {name: {first: 'hyon', last: 'hampshire'}, age: 46, sales: '$13598'},
+    {name: {first: 'issac', last: 'ingerson'}, age: 45, sales: '$5225'},
+    {name: {first: 'jeraldine', last: 'joplin'}, age: 39, sales: '$2891'},
+    {name: {first: 'jin', last: 'jeffrey'}, age: 17, sales: '$14402'},
+    {name: {first: 'joleen', last: 'jolin'}, age: 45, sales: '$15736'},
+    {name: {first: 'jude', last: 'jarrett'}, age: 53, sales: '$7557'},
+    {name: {first: 'magda', last: 'mireles'}, age: 18, sales: '$1498'},
+    {name: {first: 'mistie', last: 'montealegre'}, age: 31, sales: '$6920'},
+    {name: {first: 'nancy', last: 'napoli'}, age: 49, sales: '$5255'},
+    {name: {first: 'regine', last: 'rohrbaugh'}, age: 33, sales: '$7881'},
+    {name: {first: 'rolando', last: 'riebel'}, age: 35, sales: '$8573'},
+    {name: {first: 'scarlett', last: 'stagg'}, age: 36, sales: '$7126'},
+    {name: {first: 'sherron', last: 'strawn'}, age: 36, sales: '$8848'},
+    {name: {first: 'susan', last: 'shilling'}, age: 29, sales: '$8542'},
+    {name: {first: 'tama', last: 'tworek'}, age: 16, sales: '$9200'},
+    {name: {first: 'tonisha', last: 'taunton'}, age: 41, sales: '$5219'},
+    {name: {first: 'vergie', last: 'villescas'}, age: 25, sales: '$8712'}];
+    
+    function returnOver30 (arr) {
+      return arr.filter( person=>person.age > 30).
+      map(person=>{
+        return person.name.first+' '+person.name.last
+      });
+    }
+    
+ console.log('name = '+returnOver30(salesTeam))
+ 
+ // input is an array of strings
+ // output is a string
+ // transform a 
+ 
+function findHighestEarner (datas) {
+   
+ var peopleListWithoutSales=salesTeam.filter( person=>person.age > 30).
+      map(person=>{
+        return person.name.first+' '+person.name.last
+      });
+ var peopleSalesList=salesTeam.filter( person=>person.age > 30).
+      map(person=>{
+        return person.sales
+      });     
+  
+  var highestEarner=datas.reduce((bestSalesPerson,currPerson)=>{
+    // look up the index of curr person in peopleListWithoutSales
+    // get salesString for this person ( with same index)
+    // convert this string to a Num
+    
+    //  look up the index of bestSalesPerson in peopleListWithoutSalest
+    // get salesString for this person ( with same index)
+    // convert this string to a Num
+    
+    // if sales of bestSalesPerson is higher than sales of curr person
+      // store bestSalesPerson
+      // store curPerson
+    
+   
+   // console.log('bestSalesPErson = '+bestSalesPerson);
+    var indexOfLookedUpPerson=findIndexOfGivenPerson(currPerson,peopleListWithoutSales);
+    var currPersonSales=getSalesStrForPerson(indexOfLookedUpPerson,peopleSalesList);
+    //var indexOfBestSalesPerson=
+    var indexOfBestSalesPerson=findIndexOfGivenPerson(bestSalesPerson,peopleListWithoutSales);
+    var bestSalesPerson_Sales=getSalesStrForPerson(indexOfBestSalesPerson,peopleSalesList);
+    
+    return bestSalesPerson_Sales >= currPersonSales ? bestSalesPerson : currPerson
+    
+    
+    return bestSalesPerson
+  })
+  
+    //console.log('peopleListWithoutSales ='+JSON.stringify(peopleListWithoutSales));
+   // console.log('sales ='+JSON.stringify(peopleSalesList));
+  return highestEarner
+  
+ }
+ 
+ function findIndexOfGivenPerson(person,personList) {
+    return personList.indexOf(person);
+  }
+  
+  function getSalesStrForPerson(ind,salesRecord) {
+    return convertSalesStrToNum(salesRecord[ind]);
+  }
+  
+  
+  function convertSalesStrToNum(str){
+    return Number(str.slice(1));
+  }
+  
+  
+
+
+findHighestEarner(returnOver30(salesTeam))
+
+
+    function returnOver30 (arr) {
+      return arr.filter( person=>person.age > 30).
+      map(person=>{
+        return person.name.first+' '+person.name.last
+      });
+    }
+
+    
+ console.log('name = '+returnOver30(salesTeam))
+ 
+ // input is an array of strings
+ // output is a string
+ // transform a record of employee into the name of the employee that acheived the highest amount o sales
+ 
+ 
+ // convert the datasto be able to access first and last name differently
+ // cycle th datas
+ // for each person 
+   // initiate with a person
+    // cycle th salesTeam
+        // iniitate with 0
+       // get the current person sales
+    // if current person sales is > high sales person 
+      // set the highest S. person to curr person
+    // if not keep the highest person
+ 
+ function getHighestSeller (personList) {
+   return personList.reduce((topSeller,curSeller)=>{
+    
+      var curSellerNameObj={ first: curSeller.split(' ')[0], last:curSeller.split(' ')[1]}
+      var topSellerNameObj={ first: topSeller.split(' ')[0], last:topSeller.split(' ')[1]}
+      //console.log('curSellerNameObj = '+JSON.stringify(curSellerNameObj))
+      
+     var curSellerSalesNum=salesTeam.reduce((personSales,currPerson)=>{
+         if ( JSON.stringify(currPerson.name) === JSON.stringify(curSellerNameObj) ) {
+           personSales=salesStrToNum(currPerson.sales)
+         }
+      return personSales;
+     },0);
+     
+     var topSalesPerson_Sales=salesTeam.reduce((topSellerSales,currPerson)=>{
+         if ( JSON.stringify(currPerson.name) === JSON.stringify(topSellerNameObj) ) {
+           topSellerSales=salesStrToNum(currPerson.sales);
+         }
+      return topSellerSales
+     },0);
+    // console.log('topSalesPerson_Sales = '+topSalesPerson_Sales)
+    // console.log('curSellerSalesNum = '+curSellerSalesNum)
+    return topSalesPerson_Sales >= curSellerSalesNum ? topSeller : curSeller
+   });
+ }
+ 
+function salesStrToNum(str) {
+  return Number(str.slice(1));
+}
+
+getHighestSeller(returnOver30(salesTeam));
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+     // look up the index of curr person in peopleListWithoutSales
+    // get salesString for this person ( with same index)
+    // convert this string to a Num
+    
+    //  look up the index of bestSalesPerson in peopleListWithoutSalest
+    // get salesString for this person ( with same index)
+    // convert this string to a Num
+    
+    // if sales of bestSalesPerson is higher than sales of curr person
+      // store bestSalesPerson
+      // store curPerson
+
+
+          function returnOver30 (arr) {
+      return arr.filter( person=>person.age > 30).
+      map(person=>{
+        return person.name.first+' '+person.name.last
+      });
+    }
+
+  
+ console.log('name = '+returnOver30(salesTeam))
+ 
+ // input array of strings
+ // output a single strings
+ // transform a record of employee status and performances by extracting the person who achieved the highest record of sales
+ 
+ // map the employee list argument into a nested array [name ] => [name , sales Num]
+    //for each person 
+    // get the sales amount in str using reduce
+    // convert it to num
+  // return the inner array which to be nested in outer array
+// with that array 
+  // reduce it to the highest earner
+ 
+ 
+ 
+ function findHighestEarner(employeeNameList){
+     return employeeNameList.
+     map(employeeLookedUpName=>{
+       var employeeLookedUpSales=salesTeam.
+       reduce((employeeSalesAmount,currEmployee)=>{
+         if ( employeeLookedUpName === currEmployee.name.first+' '+currEmployee.name.last ){
+           employeeSalesAmount=salesToNum(currEmployee.sales);
+         }
+         return employeeSalesAmount;
+       },0)
+      return [employeeLookedUpName,employeeLookedUpSales];
+    }).
+    reduce((hihgestEarner,currEarner)=>{
+      return hihgestEarner[1] >= currEarner[1] ? hihgestEarner : currEarner;
+    })[0];
+ }
+ 
+ 
+ 
+ function salesToNum(str) {
+   return Number(str.slice(1));
+ }
+ 
+ var actualRes=findHighestEarner(returnOver30(salesTeam));
+ console.log('actualRes = '+JSON.stringify(actualRes));
+ 
+ var expectedRes= 'joleen jolin'
+ 
+ function assertEqual(actual, expected, testName) {
+  if ( actual === expected) {
+    return 'test passed'
+  } 
+  return 'FAILED ['+testName+'] Expected "'+expected+'", but got "'+actual+'"';
+}
+
+assertEqual(actualRes,expectedRes,'transform a record of employee status and performances by extracting the person who achieved the highest record of sales');
+ 
+
+ function returnOver30 (arr) {
+      return arr.filter( person=>person.age > 30).
+      map(person=>{
+        return person.name.first+' '+person.name.last
+      });
+    }
+     // input Array
+ // output a single String
+ // transform a record of employee status by extracting the highest earner of the company
+    
+    
+   // declare an object 'employeeTable'
+  // cycle th salesTeam
+  // for each el
+    // .first+.last a key and Num(.sales) a value of employeeTable
+  // declare a bestEarner var
+  // declare a bestEarnerSalesAmount var
+  // cycle th employeeNameList 
+  // for each el 
+    // look up the value of the key corresponding to its name ( => employeeSale )
+    // if employeeSale is higher bestEarnerSalesAmount
+        // reaffect : 
+         //   bestEarner var
+        // declare a bestEarnerSalesAmount var
+  // return bestEarner
+
+function findBestEarner(employeeNameList ){
+  var employeeTable={};
+  salesTeam.map(employee=>{
+    employeeTable[employee.name.first+employee.name.last]=salesToNum(employee.sales); 
+  })
+  var bestEarner='';
+  var bestEarnerSalesAmount=0;
+  for (var i =0 ; i < employeeNameList.length ; i++ ) {
+    spaceSeparatedEmployeeFirstandLastName=employeeNameList[i];
+    employeeNameList[i]=employeeNameList[i].split('')
+    employeeNameList[i].splice(employeeNameList[i].indexOf(' '),1);
+    employeeNameList[i]=employeeNameList[i].join('')
+    if ( employeeTable[employeeNameList[i]] > bestEarnerSalesAmount ) {
+      bestEarnerSalesAmount=employeeTable[employeeNameList[i]];
+      bestEarner=spaceSeparatedEmployeeFirstandLastName;
+    }
+  }
+  return bestEarner;
+}
+  
+ console.log('name = '+JSON.stringify(returnOver30(salesTeam)))
+ 
+
+ 
+ 
+function salesToNum(str){
+  return Number(str.slice(1));
+}
+ 
+var expected='joleen jolin';
+var actual=findBestEarner(returnOver30(salesTeam));
+console.log('actual = '+JSON.stringify(actual))
+
+function assertEqual(actual, expected, testName) {
+  if ( actual === expected) {
+    return 'test passed'
+  } 
+  return 'FAILED ['+testName+'] Expected "'+expected+'", but got "'+actual+'"';
+}
+ 
+assertEqual(actual, expected, 'transform a record of employee status by extracting the highest earner of the company')
+ 

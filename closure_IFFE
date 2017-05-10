@@ -1,0 +1,353 @@
+// https://learn.makerpass.com/groups/reactor-prep-am-20161212/courses/reactorcore/reactorprep?id=lessons%2Foop
+
+
+
+
+//The old bank account example from lecture looked as follows:
+
+function makeAccount(initial) {
+  
+
+  return {
+  	balance : initial,
+		minus:withdraw,
+		deposit:deposit,
+		displayBalance : displayBalance,
+		a:'aaaaa'
+  }
+
+
+}
+
+
+
+const w = function() {         
+    let count = 0;         
+    return function() {    
+        count++
+        return 'I have been called '+count+' time(s).';         
+    };         
+};
+
+w()();
+w();
+w();
+
+
+//var obj={a:0};
+
+//console.log(obj.a === undefined,obj.b === undefined)
+
+
+/*var destination = { x: 'x' };
+var source = { a: 'b' };
+
+//Object.assign(destination,source)
+
+function doAssign(obj){
+  console.log(Object.values(arguments)[0])
+  console.log(arguments)
+  return Object.assign(arguments)
+}
+
+doAssign(destination,source)*/
+var deposit = function(amount) {
+	//console.log('amount = '+amount)
+	this.balance = this.balance + amount;
+	//console.log('balance = '+this.balance)
+	return "Your balance is: $" + this.balance;
+  
+}
+  
+var withdraw = function(amount) {
+	if (this.balance - amount >= 0) {
+		this.balance = this.balance - amount;
+		return "Here’s your money: $" + amount;
+	}
+return "Insufficient funds.";
+	
+}
+
+
+
+var displayBalance =function(){
+		//	console.log('balance from displayB = '+this.balance)
+			return this.balance;
+		}
+
+//Refactor the above as an Account class that shares its methods across different instances.
+var account=makeAccount(1000);
+account.displayBalance();
+account.deposit(50)
+account.minus(500)
+account.displayBalance();
+account.minus(600);
+
+
+function assertEqual (expected,testName) {
+
+	if (!expected) {
+		return testName;
+	}
+	return 'test passed';
+	console.log('in assertEqual @ end')
+}
+
+assertEqual(account.deposit(100)=== 'Your balance is: $650', 'FAIL : depositing a new amount and/or calculating the new balance')
+
+/*
+
+// As before, refactor the makeStopwatch into a Stopwatch class with shared methods.
+//var watch=makeStopwatch();
+//watch.start();
+//watch.ProgrammedEnd(2000);
+
+
+//In this exercise we are going to make a Toaster class, and our Toaster is going to toast bread (because that's what toasters do). Here's a template for getting started on the Toaster class:
+
+ function Toaster() {
+  var instance = {};
+	instance.toast='';
+	instance.addToast=addToast;
+	instance.start=start;
+	instance.stop=stop;
+	instance.launched;
+	instance.eject= eject;
+	instance.empty = true;
+	instance.delay=3000;
+  // TODO: your code he;re
+
+  return instance;
+}
+
+function addToast (toastType) {
+	this.toast=toastType;
+	this.empty=false;
+}
+
+
+//Your task will be to implement methods that actually make this toaster work!
+
+//addToast: This method should accept a string representing "toast" as a parameter, e.g. "white bread", and set the toast property of the Toaster instance to that piece of toast.
+
+var morningBred=Toaster();
+morningBred.addToast("white bread");
+//console.log("current toast for morning = "+morningBred.toast)
+assertEqual(morningBred.toast==="white bread",'FAIL : displaying the right toast used by the current Toaster')
+
+//eject: This method should accept no parameters, and return one of two things:
+
+//If there is no toast in the toaster, it should return a string indicating that the toaster is empty.
+//If there is toast in the toaster, it should return the toast and then set the toast property of the instance to undefined.
+
+function eject () {
+	if (this.empty) {
+		return 'toaster is empty';
+	}
+	var lastToastedToast=this.toast;
+	this.toast=undefined;
+	this.empty=true;
+	return lastToastedToast ;
+}
+
+assertEqual(morningBred.eject()==='white bread','FAIL finding ot that the Toaster does not have any toast in it currently ')
+
+//start: The start method is responsible for actually toasting the toast -- we can achieve this using the built-in setTimeout function that accepts two parameters: a function and a time (number) in milliseconds (e.g. 1000 represents one second) -- setTimeout will then invoke that function once after the time has passed. setTimeout also returns a number that can be passed to clearTimeout to cancel the invocation (it works almost identically to setInterval, but only executes its function argument once instead of repeatedly).
+
+//The idea of start is to use setTimeout to:
+
+//console.log("Ding!") after some period of time (representing the time that the toast is being "toasted")...
+//and update the instance's toast property to reflect that the toast has been toasted (for instance, "white bread" should become "white bread (toasted)".
+//If there is no toast in the toaster at the time that start is invoked, it should return a string indicating that toast needs to be added before it can be toasted.
+
+
+//console.log('Toaster.delay = '+morningBred.delay)
+
+function start () {
+	this.launched=setTimeout(function(obj){
+		console.log("DING")
+		obj.toast=obj.toast+" (toasted)";
+		//console.log(assertEqual(morningBred.toast==="white bread (toasted)",'FAIL : should indicate the type type of bred that has been toasted and only when it has been toasted'))
+
+		},this.delay,this)
+}
+morningBred.addToast("white bread");
+morningBred.start();
+
+
+//stop: the stop method should cancel an in-progress toaster by using clearTimeout on the return value of the invocation of setTimeout from start.
+
+function stop () {
+	clearTimeout(this.launched);
+}
+
+morningBred.stop()
+assertEqual(morningBred.toast!="white bread (toasted)", 'FAIL : stopping the toasting process while it is running');
+
+//More Practice: Extending the Stopwatch
+
+//#1
+
+//Provide a way to "name" a stopwatch when invoking makeStopwatch. That way, if we have multiple stopwatches running simultaneously, we know which one is which based on its name, e.g.:
+
+
+var stopwatch1 = makeStopwatch("Stopwatch 1");
+var stopwatch2 = makeStopwatch("Stopwatch 2");
+
+//stopwatch1.start();
+// => "Elapsed time: 1s (Stopwatch 1)"
+// => "Elapsed time: 2s (Stopwatch 1)"
+//stopwatch2.start();
+// => "Elapsed time: 1s (Stopwatch 2)"
+// => "Elapsed time: 3s (Stopwatch 1)"
+// etc.
+
+//#2
+
+//Implement a "lapping" mechanism by providing another method in the returned object called lap. We will want a way to view the laps as well with a laps method, and the laps should be cleared when the stopwatch is reset.
+
+//We should be able to use it like this:
+
+
+
+function makeStopwatch(nameGiven) {
+  var stop;
+  var time = 0;
+  return {
+  	start : startWatch,
+    pause : breakFunc,
+    reset : reset,
+    ProgrammedEnd : launchBreakFunc,
+    time :0,
+    name:nameGiven,
+    stop,
+    laps :laps,
+    lapHistory :[],
+    lap :addLap
+  };
+}
+
+ function startWatch() {
+      this.stop = setInterval(function(obj) {
+        obj.time =obj.time + 1;
+        var timeToDisplay= obj.time;
+        // if Elapsed time is > 60
+        // display this time in minutes
+        	// var seconds, minutes
+        	// minutes = floor ( timeToDisplay / 60 )
+        	//seconds = timeToDisplay % 60
+        	// timeToDisplay = minutes+"m"+" "+seconds+"s. "
+        if (timeToDisplay>=60) {
+        	timeToDisplay=renderTimeInMinutes(timeToDisplay)
+        }
+        	
+        console.log("Elapsed time: " + timeToDisplay + " s. ( "+obj.name+" )");
+         if (decideIfRunAssert(obj.time)) {
+      	assertEqual("Elapsed time: " + timeToDisplay + " s." === "Elapsed time: 1m 12s.", 'check that elapsed time is dispalyed in minutes')
+      }
+      }, 1000,this);
+      
+     
+    }
+ function decideIfRunAssert (timeReceived) {
+ 	var timeToCheck=72;
+ 	return timeToCheck === timeReceived ? true : false ;
+ }
+ 
+ function renderTimeInMinutes (timeReceived) {
+
+
+        // display this time in minutes
+        	// var seconds, minutes
+        	// minutes = floor ( timeToDisplay / 60 )
+        	//seconds = timeToDisplay % 60
+        	// timeToDisplay = minutes+"m"+" "+seconds+"s. "
+  var seconds =timeReceived % 60;
+    //console.log('in renderTimeInMinutes & seconds = '+seconds)
+  var minutes= Math.floor(timeReceived/60);
+    // console.log('in renderTimeInMinutes & seconds = '+seconds+"& minutes = "+minutes)
+  //console.log(minutes+"m"+" "+seconds+"s.");
+  return minutes+"m"+" "+seconds+"s. "
+ }
+ 
+  function breakFunc () {
+      clearInterval(this.stop);
+    }
+ 
+ function reset () {
+      clearInterval(this.stop);
+      this.time = 0;
+      this.lapHistory=[];
+    }   
+    
+ function launchBreakFunc (delay) {
+ 	var f=function(obj){
+ 		console.log( 'in ProgrammedEnd timeout' )
+	  clearInterval(obj.stop);
+ 	}
+ 	setTimeout(f, delay,this);
+ }
+
+function addLap () {
+	this.lapHistory.push({time:this.time,watchName:this.name});
+	console.log("Adding lap @ "+this.time+"s ("+this.name+")");
+}
+
+function laps() {
+	if (this.lapHistory.length === 0){
+		return "No laps."
+	}
+	var selectedObjName=this.name;
+	var lapHistoryFilteredByName=this.lapHistory.filter(function(lap){
+		return lap.watchName === selectedObjName;
+	})
+	var toRet=lapHistoryFilteredByName.reduce(function(acc,lap,index){
+		return acc+(index+1)+". "+lap.time+"s \n";
+	},'')
+	console.log(toRet)
+	return toRet; 
+}
+
+
+//var stopwatch1 = makeStopwatch("Stopwatch 1");
+//stopwatch1.start();
+// => "Elapsed time: 1s (Stopwatch 1)"
+// => "Elapsed time: 2s (Stopwatch 1)"
+//stopwatch1.lap(); // => "Adding lap @ 2s (Stopwatch 1)"
+// => "Elapsed time: 3s (Stopwatch 1)"
+//stopwatch1.lap(); // => "Adding lap @ 3s (Stopwatch 1)"
+//stopwatch1.pause();
+//stopwatch1.laps(); // => "1. 2s\n2. 3s"
+//stopwatch1.reset();
+//console.log('stopwatch1.laps() = '+stopwatch1.laps()); // => "No laps."
+
+//assertEqual(stopwatch1.laps()===""No laps."",'FAIL : displaying number of LAPS @ correct time')
+//assertEqual(areEqualJSONSTRING(stopwatch1.laps(),"1. 0s \n2. 0s ")===true,'FAIL : displaying number of LAPS @ correct time')
+
+
+function areEqualJSONSTRING(str1,str2){
+	return JSON.stringify(str1)===JSON.stringify(str2)
+}
+
+
+
+//3 What happens if your stopwatch runs longer than a minute? It'll probably keep listing off the time in seconds, e.g. Elapsed time: 72s. It would be nice if it displayed minutes and seconds when the time ran beyond a single minute, e.g. Elapsed time: 1m 12s. Modify your stopwatch code to achieve this.
+
+var stopwatch3 = makeStopwatch("Stopwatch 3");
+stopwatch3.start();
+stopwatch3.pause();
+
+
+// ADVANCED
+
+//What should happen if we attempt to toast some toast that has already been toasted? e.g.
+
+var toaster = Toaster();
+//*toaster.addToast("white bread");
+//*toaster.start();
+// ...some time elapses...
+// => "Ding!"
+//*toaster.start();
+//Modify start so that, if the toast is already toasted, it becomes burnt on subsequent invocations of start.
+//*assertEqual(toaster.start()=== 'toast is burnt','burn the toast if we retoat the same toast that has already been toasted ')
+*/

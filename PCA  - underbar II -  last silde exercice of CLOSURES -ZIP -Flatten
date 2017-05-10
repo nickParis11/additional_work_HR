@@ -1,0 +1,281 @@
+var makeStopWatch = function () {
+
+  var stopwatch = function () {return elapsed;};
+  var increase = function (num) { num === undefined ? elapsed++ : elapsed+=num;};
+  var decrease = function (num) { num === undefined ? elapsed-- : elapsed-=num;};
+  var elapsed = 0;
+  setInterval(increase(1),1000);
+  setInterval(decrease(2),1000);
+  setInterval(increase(1),1000);
+  setInterval(increase(3),1000);
+  return {
+  ret:stopwatch,
+  plus: increase,
+  minus:decrease
+  };
+
+}
+
+
+
+
+var stopwatch1=makeStopWatch();
+var anotherWatch=makeStopWatch();
+var objectOrientedConstructedWatch = new makeStopWatch();
+
+stopwatch1.plus();
+stopwatch1.plus();
+stopwatch1.plus();
+stopwatch1.plus();
+stopwatch1.minus();
+stopwatch1.ret();
+anotherWatch.ret();
+stopwatch1.plus(5);
+anotherWatch.ret();
+stopwatch1.ret();
+console.log(objectOrientedConstructedWatch.ret(),stopwatch1.ret(),anotherWatch.ret())
+
+var salesTeam = [{name: {first: 'aleen', last: 'atkins'}, age: 26, sales: '$2314'},
+    {name: {first: 'alvaro', last: 'angelos'}, age: 55, sales: '$1668'},
+    {name: {first: 'denese', last: 'dossett'}, age: 29, sales: '$9248'},
+    {name: {first: 'douglas', last: 'denney'}, age: 53, sales: '$5058'},
+    {name: {first: 'earline', last: 'erickson'}, age: 19, sales: '$18876'},
+    {name: {first: 'herman', last: 'hazell'}, age: 25, sales: '$2746'},
+    {name: {first: 'homer', last: 'hirth'}, age: 26, sales: '$474'},
+    {name: {first: 'hwa', last: 'heidt'}, age: 53, sales: '$9607'},
+    {name: {first: 'hyon', last: 'hampshire'}, age: 46, sales: '$13598'},
+    {name: {first: 'issac', last: 'ingerson'}, age: 45, sales: '$5225'},
+    {name: {first: 'jeraldine', last: 'joplin'}, age: 39, sales: '$2891'},
+    {name: {first: 'jin', last: 'jeffrey'}, age: 17, sales: '$14402'},
+    {name: {first: 'joleen', last: 'jolin'}, age: 45, sales: '$15736'},
+    {name: {first: 'jude', last: 'jarrett'}, age: 53, sales: '$7557'},
+    {name: {first: 'magda', last: 'mireles'}, age: 18, sales: '$1498'},
+    {name: {first: 'mistie', last: 'montealegre'}, age: 31, sales: '$6920'},
+    {name: {first: 'nancy', last: 'napoli'}, age: 49, sales: '$5255'},
+    {name: {first: 'regine', last: 'rohrbaugh'}, age: 33, sales: '$7881'},
+    {name: {first: 'rolando', last: 'riebel'}, age: 35, sales: '$8573'},
+    {name: {first: 'scarlett', last: 'stagg'}, age: 36, sales: '$7126'},
+    {name: {first: 'sherron', last: 'strawn'}, age: 36, sales: '$8848'},
+    {name: {first: 'susan', last: 'shilling'}, age: 29, sales: '$8542'},
+    {name: {first: 'tama', last: 'tworek'}, age: 16, sales: '$9200'},
+    {name: {first: 'tonisha', last: 'taunton'}, age: 41, sales: '$5219'},
+    {name: {first: 'vergie', last: 'villescas'}, age: 25, sales: '$8712'}];
+
+// Helper function
+function capName (name) {
+        return name[0].toUpperCase() + name.slice(1);
+    }
+
+// Cap main function using a helper function
+function capitalize(array) {
+        array.forEach(function(obj) {
+           obj.name.first = capName(obj.name.first);
+           obj.name.last = capName(obj.name.last); 
+        });
+    }
+capitalize(salesTeam);
+
+// Helper function for changing the sales string to numbers
+function changeSalesToNum (person) {
+    var salesStrAmountWithout$Sign = person.sales.slice(1);
+    person.sales = parseInt( salesStrAmountWithout$Sign ); 
+    //return person;
+}
+
+// Helper test function for testing for over 40
+function is40Plus (person) {
+    return person.age > 40;
+}
+
+// Using a higher order function with a helper function as a call back
+function get40Plus_1 (salesTeam) {
+    var over40 = salesTeam.filter(is40Plus);
+    return function () {
+     over40.forEach(changeSalesToNum);
+     // over40 = changeSalesToNum.apply(over40, over40);
+     return over40[1];
+    }(); //<- IIFE;
+
+}
+
+// var tryOut_1 = get40Plus_1(salesTeam);
+// console.log(tryOut_1);
+
+
+
+
+
+//Different ways of calling the closure with the IIFE in different places
+
+function get40Plus_2 (salesTeam) {
+    var over40 = salesTeam.filter(is40Plus);
+    return function() {
+     over40.forEach(changeSalesToNum);
+     return over40[2];
+    }
+}
+
+var testclosure=get40Plus_2 (salesTeam)
+console.log('testclosure = '+JSON.stringify(testclosure))
+// var tryOut_2 = get40Plus_2(salesTeam);
+// console.log(tryOut_2()); 
+
+function get40Plus_3 (salesTeam) {
+    var over40 = salesTeam.filter(is40Plus);
+    return function() {
+     over40.forEach(changeSalesToNum);
+     return over40[3];
+    };
+
+}
+
+var tryOut_3 = get40Plus_3(salesTeam)(); //<- IIFE;
+console.log(tryOut_3);
+
+
+var arr=[1,2,[3,4,[5,6,[7,8]]],[9,10]];
+
+var flatten = array => {
+    var finalArr=[];
+    array.
+    map(function extractDataFromArray ( element ) {
+      // console.log ('element = '+element)
+      if ( Array.isArray(element) ) {
+          element.
+          map(subEl=>{
+            extractDataFromArray ( subEl )
+          })
+      } else {
+        finalArr.push(element)
+      }
+    })
+    return finalArr;
+}
+
+flatten(arr)
+
+var flattenWithReduce = array => {
+ return array.
+ reduce(function extractDataFromArray(flattenedArr,el,index) {
+     if ( Array.isArray(el) ) {
+          el.
+          forEach(subEl=>{
+            extractDataFromArray ( flattenedArr,subEl )
+          })
+      } else {
+        flattenedArr.push(el)
+      }
+      return flattenedArr;
+ },[]);
+}
+
+
+flattenWithReduce(arr)
+
+// takes x arrays
+// return one array of the length of the longuest Array
+// transform x given arrays into one array that will 
+    // contain every item which contained in the x given arrays
+    // have the length of the longuest array that were given
+    // each item of the output array:
+        // will be arrays , 
+        // have length that can vary from 1 to x
+        // will contain one item of the x arrays at each of its indexes ( if one or more of the given arrays have 
+        // no item at a given index of the longuest given array => the array contained in the final array for this very same index will only be populated by the items of the given array that exist
+
+
+// declare an empty array
+// make an array with all the given arrays
+// determine whichever is the longuest Array
+// cycle through the longuest Array
+ // for every element at the current index, declare another empty Array
+ // push all the elements of the x given arrays that 1. have an index that equal the current index 2. that exist ( ! undefined)
+ // push this other empty array into the initial empty Array
+// retrun this initial empty when finished nested iteration
+
+// needToloopToFindLonguest, 
+
+// init => arguments
+// RC1 to foundLonguestArray => needToloopToFindLonguest,  loopsToGo , currLoopNum longuestArr,arguments
+// RC2 till final return =>
+
+/*
+function zipWithRecursionAndNoNewVarNoNewFuncNorHOFsAllowed () {
+  
+  
+  if (  Array.from(arguments)[0] !== 'needToloopToFindLonguest'  )  { // cond 1 = init RC1 
+    zipWithRecursionAndNoNewVarNoNewFuncNorHOFsAllowed ('needToloopToFindLonguest',Array.from(arguments)[0].length,1,Array.from(arguments)[0].length,Array.from(arguments))
+  }
+  
+  
+  if (  Array.from(arguments)[0] === 'needToloopToFindLonguest'  ) {
+    console.log(JSON.stringify(Array.from(arguments)))
+    if ( Array.from(arguments)[1]  === 0 ) {
+      zipWithRecursionAndNoNewVarNoNewFuncNorHOFsAllowed('needToLoopToCreateFinalArr',Array.from(arguments)[3],0,)
+    } else {
+      Array.from(arguments)[3].length >= Array.from(arguments)[4][Array.from(arguments)[2]].length ? zipWithRecursionAndNoNewVarNoNewFuncNorHOFsAllowed ('needToloopToFindLonguest',Array.from(arguments)[1]-1,Array.from(arguments)[2],Array.from(arguments)[3].length,Array.from(arguments)[4]) : zipWithRecursionAndNoNewVarNoNewFuncNorHOFsAllowed ('needToloopToFindLonguest',Array.from(arguments)[1]-1,Array.from(arguments)[2],Array.from(arguments)[4][Array.from(arguments)[2]].length,Array.from(arguments)[4])
+    }
+  }
+  
+  
+  
+  
+}
+    
+zipWithRecursionAndNoNewVarNoNewFuncNorHOFsAllowed (['one','two','three'],flattenWithReduce(arr),['a','b','c','d'])
+*/
+
+
+function zip () {
+  var finalArr=[];
+  var argumentList=Array.from(arguments)
+  // console.log(JS)
+  var longuestArr=pickLonguestArray(argumentList);
+  longuestArr.
+  forEach((el,index)=>{
+    var itemOfFinalArr=[]
+    argumentList.forEach(function(array){
+      if ( typeof array[index] !== 'undefined' ) {
+       // console.log('array + index = '+JSON.stringify(array),index)
+        itemOfFinalArr.push(array[index])
+      }
+    })
+    //console.log('finalArr = '+JSON.stringify(finalArr))
+    finalArr.push(itemOfFinalArr)
+  });
+  return finalArr;
+}
+
+function pickLonguestArray (arrayOfArraysToZip) {
+  return arrayOfArraysToZip.reduce((longuestArr,currArr)=>{
+    return longuestArr.length >= currArr.length ? longuestArr : currArr
+  })
+}
+
+
+var testZip=zip(['one','two','three'],flattenWithReduce(arr),['a','b','c','d']);
+
+
+function zipWithReduce () {
+  var argumentList=Array.from(arguments)
+  // console.log(JS)
+  var longuestArr=pickLonguestArray(argumentList);
+  return longuestArr.
+  reduce((finalArr,currElInLonguestArr,index)=>{
+    var itemOfFinalArr=[];
+         argumentList.map(array=>{
+          if ( typeof array[index] !== 'undefined' ) {
+          itemOfFinalArr.push(array[index])
+          }
+        })
+    finalArr.push(itemOfFinalArr)
+    return finalArr;
+  },[]);
+}
+
+
+var testZipWithReduce=zipWithReduce(['one','two','three'],flattenWithReduce(arr),['a','b','c','d']);
+console.log(JSON.stringify(testZipWithReduce)===JSON.stringify(testZip))
+console.log(JSON.stringify(testZipWithReduce))
+
+

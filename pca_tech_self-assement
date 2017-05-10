@@ -1,0 +1,299 @@
+var salesTeam = [{name: {first: 'aleen', last: 'atkins'}, age: 26, sales: '$2314'},
+    {name: {first: 'alvaro', last: 'angelos'}, age: 55, sales: '$1668'},
+    {name: {first: 'denese', last: 'dossett'}, age: 29, sales: '$9248'},
+    {name: {first: 'douglas', last: 'denney'}, age: 53, sales: '$5058'},
+    {name: {first: 'earline', last: 'erickson'}, age: 19, sales: '$18876'},
+    {name: {first: 'herman', last: 'hazell'}, age: 25, sales: '$2746'},
+    {name: {first: 'homer', last: 'hirth'}, age: 26, sales: '$474'},
+    {name: {first: 'hwa', last: 'heidt'}, age: 53, sales: '$9607'},
+    {name: {first: 'hyon', last: 'hampshire'}, age: 46, sales: '$13598'},
+    {name: {first: 'issac', last: 'ingerson'}, age: 45, sales: '$5225'},
+    {name: {first: 'jeraldine', last: 'joplin'}, age: 39, sales: '$2891'},
+    {name: {first: 'jin', last: 'jeffrey'}, age: 17, sales: '$14402'},
+    {name: {first: 'joleen', last: 'jolin'}, age: 45, sales: '$15736'},
+    {name: {first: 'jude', last: 'jarrett'}, age: 53, sales: '$7557'},
+    {name: {first: 'magda', last: 'mireles'}, age: 18, sales: '$1498'},
+    {name: {first: 'mistie', last: 'montealegre'}, age: 31, sales: '$6920'},
+    {name: {first: 'nancy', last: 'napoli'}, age: 49, sales: '$5255'},
+    {name: {first: 'regine', last: 'rohrbaugh'}, age: 33, sales: '$7881'},
+    {name: {first: 'rolando', last: 'riebel'}, age: 35, sales: '$8573'},
+    {name: {first: 'scarlett', last: 'stagg'}, age: 36, sales: '$7126'},
+    {name: {first: 'sherron', last: 'strawn'}, age: 36, sales: '$8848'},
+    {name: {first: 'susan', last: 'shilling'}, age: 29, sales: '$8542'},
+    {name: {first: 'tama', last: 'tworek'}, age: 16, sales: '$9200'},
+    {name: {first: 'tonisha', last: 'taunton'}, age: 41, sales: '$5219'},
+    {name: {first: 'vergie', last: 'villescas'}, age: 25, sales: '$8712'}];
+
+// input : Array
+// Array
+// output an array with every element of a name being capitalized
+
+//  {name: {first: 'tama', last: 'tworek'}, age: 16, sales: '$9200'} =>   {name: {first: 'Tama', last: 'Tworek'}, age: 16, sales: '$9200'} 
+
+// cycle through array
+// for each name 
+  // cycle through name
+  // replace first letter of every el of name{} with a capitalized letter.
+
+
+function capitalize(salesTeam) {
+  return salesTeam.map(function(person){
+    //console.log(person.name.first);
+    return '{ name: {first :'+capitalizeWord(person.name.first)+', last:'+capitalizeWord(person.name.last)+' },age : '+person.age+', sales: '+person.sales+' }';
+    //console.log(nameArr)
+   // person.name.first
+   });
+}
+
+   /*var nameArr=Array.from(name);
+      return nameArr.map(function(subName){
+        console.log('test');
+      });*/
+
+
+var capitalizeWord  = function (word){
+  
+  word=word.split('')
+
+  word[0]=word[0].toUpperCase();
+
+  return word.join('');
+}
+
+
+
+
+//Part 3
+
+//We are interested in knowing how our team is generally performing. Write a function averageTeamSales that takes in the salesTeam array and returns a single number, the average of all sales for the team. Make sure to round up your result.
+
+// input array
+// output a number
+// given a list of employee records output the average sale by emloyee => team avg sales
+
+// cycle through array
+// accumulate the sales total for the team ( we ll have to transform the string to a number )
+// we ll divide sales total by the number of peop in the team
+var averageTeamSales = function (salesTeam) {
+    return Math.round(salesTeam.reduce((totalSales,person)=>{
+      return totalSales+stringToNum(person.sales);
+    },0) / salesTeam.length);
+};
+
+
+
+function assert(expectedBehavior, descriptionOfCorrectBehavior) {
+  if (!expectedBehavior) {
+    console.log(descriptionOfCorrectBehavior);
+  } else {
+    console.log('test passed');
+  }
+}
+//console.log(averageTeamSales(salesTeam))
+assert(averageTeamSales(salesTeam)===7487 && typeof averageTeamSales(salesTeam) === 'number','should compute the average sales by employee also called average team sales' )
+
+//Testing
+
+//Tests will use a different team with the exact same data structure
+//No other input values will be tested
+//Tests will inspect the output value and type
+
+
+var sales='$9200';
+
+function stringToNum(str) {
+  str=Number(str.slice(1));
+  return str
+}
+
+// # 5
+
+//Write a function highestEarner that takes in the salesTeam array and returns a single string of the team member's first name, last name, and amount of sales.
+//For example:
+
+//console.log(highestEarner(salesTeam)); // should output "Earline Erickson: $18876"
+//Make sure to start this problem by writing a single failing assert function before filling out the logic in the function body.
+
+
+//Testing
+
+//Tests will use a different team with the exact same data structure
+//No other input values will be tested
+//Tests will first invoke 'capitalize' before 'highestEarner'
+//Tests will have a syntax-specific expectation of your function. Refer to the prompt given.
+
+// input array
+// output string ( mixed element )
+// output the person complete name and sales who has the highest amount of sales 
+
+var highestEarner = function (companies) {
+  var bestSeller= companies.reduce((bestEarner,currentEarner)=>{
+     return stringToNum(bestEarner.sales) >= stringToNum(currentEarner.sales) ? bestEarner : currentEarner
+  })
+  return bestSeller.name.first +' '+bestSeller.name.last+': '+bestSeller.sales;
+};
+
+assert(highestEarner(salesTeam)==="earline erickson: $18876",'should output the capitalized name and sales of the highest earner of the company')
+
+//Part 6 -- Something different
+
+//And now for something a little bit different.
+
+//For this part, write a function called 'filter'.
+
+//Given an array or an object, in this case called a 'collection', filter will return an array whose values are those from the collection that, when tested with the 'predicate' function, return true.
+
+//NOTE:
+
+//We have pre-written a reduce and each function in the starter code.
+//Make sure not to change anything in the Starter Code underneath the commented section "DO NOT ADJUST BELOW FUNCTIONS"
+//You must use the reduce we provided in the Starter Code in your solution of filter
+//Here is your starter code:
+
+// Starter Code
+
+// analysis :
+  // input coll ( arr || obj ) // predicate func =>
+                                        // input ( element )
+                                        // implement a test
+                                        // return a boolean 
+  // output coll
+  // fiter should takee a collection A and return a collection B of only the elements of A that match the predicate function passed as a param.
+
+// outline
+  // declare an empty coll
+  // cycle through collection
+  // for each element 
+    // if it passes the predicate
+      // adds element to previously declared collection 
+  // return previously declared collection 
+  
+
+
+function filter(collection, predicate) {
+  // Your code below. You must use reduce in your solution.
+  if (Array.isArray(collection)) {
+     return collection.reduce((finalColl,element,index)=>{
+      if (predicate(element)) {
+        finalColl.push(element);
+      } 
+      return finalColl;
+    },[]);
+  } else {
+    var loops=0;
+    return Object.keys(collection).reduce((finalColl,element)=>{
+      if (predicate(collection[element])) {
+     
+        finalColl[loops]=collection[element];
+        loops++;
+      } 
+      return finalColl;
+    },[]);
+  }
+}
+
+
+// DO NOT ADJUST BELOW FUNCTIONS
+function reduce(collection, accumulator, initialValue) {
+  each(collection, function(val) {
+    if (initialValue !== undefined) {
+      initialValue = accumulator(initialValue, val);
+    } else {
+      initialValue = val;
+    }
+  })
+  return initialValue;
+}
+
+function each (collection, callback) {
+  if (Array.isArray(collection)) {
+    for (let i = 0; i < collection.length; i++) {
+      callback(collection[i], i, collection);
+    }
+  } else {
+    for (let key in collection) {
+      callback(collection[key], key, collection);
+    }
+  }
+}
+//And here is a sample implementation:
+
+var arr = [1, 2, 3, 4];
+var obj = {
+  a: 1,
+  b: 2,
+  c: 3,
+  d: 4
+}
+
+function isEven(val) {
+  return val % 2 === 0;
+}
+
+function isOdd(val) {
+  return !isEven(val);
+}
+
+
+var testReduce=Object.keys(obj).reduce((finalColl,element,index)=>{
+      if (isOdd(obj[element])) {
+        finalColl[element]=obj[element];
+      } 
+      return finalColl;
+    },{});
+    
+
+var output1 = filter(arr, isEven);
+console.log('output1 '+JSON.stringify(output1)); // --> [2, 4];
+
+var output2 = filter(obj, isOdd);
+console.log('output2 '+JSON.stringify(output2)); // --> [1, 3];
+
+//Testing
+function areEveryCollSameType (collectionList,expectedType) {
+  var EveryCollSameType=true;
+  function determineType(coll){
+    return expectedType === 'array' ? Array.isArray(coll) : typeof coll;
+  }
+  collectionList.reduce((lastColl,currentColl)=>{
+    if (!EveryCollSameType) {
+       return lastColl;
+    } 
+    if ( determineType(lastColl) !== determineType(currentColl) ) {
+      EveryCollSameType=false;
+    }
+    return lastColl;
+  });
+  return EveryCollSameType;
+}
+
+function assertCollEquals (coll1,coll2) {
+  var collectionList=Array.from(arguments)
+  console.log('collection list : '+JSON.stringify(collectionList));
+    if (Array.isArray(coll1)) {
+     if (!areEveryCollSameType(collectionList,'array')){
+       return false;
+     };
+    return collectionList[0].reduce((alreadyFoundFalse,element,index)=>{
+      return element === coll2[index] && !alreadyFoundFalse ? true : false;
+      },true) && coll1.length === coll2.length
+      
+    } else {
+        if (!areEveryCollSameType(collectionList,'object')){
+          return false;
+        };
+        return Object.keys(coll1).reduce((alreadyFoundFalse,element,index)=>{
+          return coll1[element] === coll2[element] && !alreadyFoundFalse ? true : false;
+        },true) && Object.keys(coll1).length === Object.keys(coll2).length
+    }
+}
+
+
+
+assert(assertCollEquals(output1,[2, 4]),' should filter an array to only its values that match the predicate')
+assert(assertCollEquals(output2,[1, 3]),' should filter an object to only its values that match the predicate')
+
+//Test will make sure you are using the provided reduce
+//Will test to make sure code works for both an object and array with simple keys/values
+
+

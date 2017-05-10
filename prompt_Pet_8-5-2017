@@ -1,0 +1,130 @@
+//console.log('Nick')
+// As after 35 minutes of mock interview
+
+
+// input 2 arrays
+// output 1 array
+// calculate the common el of 2 arrays taking array # 1 as a a reference
+
+//declare final arr
+// iterate th arr 1
+ // for each el 
+  // iterate th arr2
+  // if there is a match btw the 2 el 
+  // push the el into final arr
+// return finalarr
+
+function intersection(arr1,arr2) {
+
+    var finalArr=[];
+    arr1.
+    map(el1=>{
+      arr2.
+      map(el2=>{
+       if ( el2 === el1 ) {
+        finalArr.push(el1);
+       }
+      });
+    })
+    return finalArr;
+}
+        
+// Write a function that calculates the digit sum of a number. Use a higher order function 
+// (such as forEach, map, reduce) in your solution. 
+
+// string the num. split('');
+// use the reduce function(count, ele), 0;
+// count += pareseInt(ele);
+//console.log('sum: ' + digitSum(1374));
+// returns 15 (1 + 3 + 7 + 4 = 15)
+
+// input a number
+// output a number
+// suming every digit of a given number
+
+
+// convert the num into a str
+// convert the str into an array
+// we wil use reduce to calculate the sum of converted to num value of the el ( of the arr )
+
+function digitSum(num) {
+  return num.toString().split('').
+  reduce((count, ele)=>{
+    return count+parseInt(ele);
+  },0)
+}
+
+//console.log('sum: ' + digitSum(1374));
+
+// input is arr1 arr 2 and transformation function
+// output arr
+// outputs the common elements of 2 arr that are both tranformed by a fn taking 1st arr as a ref
+
+function intersectionBy(arr1,arr2,fn){
+         var finalArr=[];
+    arr1.
+    map(el1=>{
+      arr2.
+      map(el2=>{
+       if ( fn(el2) === fn(el1) ) {
+        finalArr.push(el1);
+       }
+      });
+    })
+    return finalArr;
+}
+
+
+// // Write a function that compares the (potentially deeply nested) keys of two objects to determine if 
+// // they contain the same keys. 
+
+// example use
+console.log(sameKeys({a: 1, b: {c: 2, d:5}}, {a: 3, b: 2, c: 3})) ;
+// returns true
+console.log(sameKeys({a: 1, b: 2, c: 3}, {a: 3, b: 4}));
+// returns false
+
+// input 2 obj
+// ouput bool
+// determine if flattened version of 2 obj are equal
+
+// for each obj
+//iterate though obj 
+  // if value is obj => flatten this value
+
+// compare with assertkeysobjequals the 2 flattened obj
+
+
+
+function sameKeys(obj1,obj2) {
+  
+  var obj1Keys= Object.keys(obj1)
+  var comparisonArr= [];
+  
+  
+  for ( var keys in obj1 ) {
+     comparisonArr
+    }
+  
+return   obj1Keys.
+  reduce(function flatten(flatObj1,key) {
+      flatObj1.push(key)
+      if ( typeof obj1[key] === 'object' && !Array.isArray(obj1[key]) ) {
+        console.log('obj')
+        flatten(flatObj1,Object.keys(obj1[key]).join(''))
+      }
+  return flatObj1;
+  },[]);
+  
+  
+  
+ /* arg1.
+  reduce(function flatten (finalObj,currItem)=>{
+         
+         if ( typeof currItem === 'object' && !Array.isarray(currItem) ) {
+          FinalObj.assign(currItem)
+    }
+    return 
+    
+         })*/
+}
