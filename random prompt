@@ -32,7 +32,7 @@ var salesTeam = [{name: {first: 'aleen', last: 'atkins'}, age: 26, sales: '$2314
     }
     
  console.log('name = '+returnOver30(salesTeam))
- 
+ //
  // input is an array of strings
  // output is a string
  // transform a 
