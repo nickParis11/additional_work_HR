@@ -15,6 +15,8 @@ var trouvé = str.match(re); // play with different values of re
 
 console.log(trouvé);
 
+
+
 // ====> output 
 // [ 'chapitre 3.4.5.1',
 //   'chapitre 3.4.5.1',
@@ -31,6 +33,16 @@ console.log(trouvé);
 // 'chapitre 3.4.5.1' est la valeur gardée en mémoire par
 // `(chapitre \d+(\.\d)*)`.
 // '.1' est la valeur gardée en mémoire par `(\.\d)`.
+
+
+function countSearchedChar3(string,char){
+  var re = new RegExp(char,"g");
+  console.log("when you don't use 'g' in match() it will list all occurences in an array = "+JSON.stringify(string.match(re) ) )// 
+  var re_Withoutg = new RegExp(char);
+  console.log("note the difference when you don't use 'g' in match() = "+JSON.stringify(string.match(re_Withoutg) ) )//
+  return string.match(re).length
+}
+console.log(JSON.stringify(countSearchedChar3('stringss','s')));
 
 
 
