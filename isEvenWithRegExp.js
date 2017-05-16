@@ -23,7 +23,7 @@ console.log('isEven = '+JSON.stringify(isEven(arrayNums)));
 // try with regExp
 function isEven2(nums) {
 	// fisrt version with fully backed implementation => 
-	return nums.filter(num=> num.toString().search(/^(?:\d*)[0,2,4,6,8]$/g) !== -1)
+	return nums.filter(num=> num.toString().search(/^\d*[0,2,4,6,8]$/g) !== -1)
 	// with positive look ahead = > return nums.filter(num=> num.toString().search(/^(?:\d*)[0,2,4,6,8]$/g) !== -1)
 	// cleaner => return nums.filter(num=> num.toString().search(/\d*[0,2,4,6,8]$/) !== -1)
 	// even cleaner => return nums.filter(num=> num.toString().search(/[0,2,4,6,8]$/) !== -1) // allow string that would end by numbers though
